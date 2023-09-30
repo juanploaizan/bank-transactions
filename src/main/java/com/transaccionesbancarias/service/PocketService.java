@@ -6,7 +6,7 @@ import java.util.Set;
 
 public interface PocketService {
 
-    Pocket createPocket(Pocket pocket);
+    Pocket createPocket(Long accountNumber, String name, Double initialValue);
 
     Pocket transferFromAccount(Long accountNumber, String pocketNumber, Double amount);
 

@@ -19,6 +19,9 @@ public class Pocket {
     private String pocketNumber;
 
     @Column(nullable = false)
+    private String name;
+
+    @Column(nullable = false)
     private Double balance;
 
     @ManyToOne

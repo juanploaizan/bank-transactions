@@ -46,6 +46,38 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(PocketExistsException.class)
+    public ResponseEntity<ErrorResponse> handlePocketExistsException(PocketExistsException e) {
+        ErrorResponse errorResponse = new ErrorResponse(
+                LocalDateTime.now(), e.getMessage()
+        );
+        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(InsufficientFundsException.class)
+    public ResponseEntity<ErrorResponse> handleInsufficientFundsException(InsufficientFundsException e) {
+        ErrorResponse errorResponse = new ErrorResponse(
+                LocalDateTime.now(), e.getMessage()
+        );
+        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(PocketNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handlePocketNotFoundException(PocketNotFoundException e) {
+        ErrorResponse errorResponse = new ErrorResponse(
+                LocalDateTime.now(), e.getMessage()
+        );
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(AccountNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleAccountNotFoundException(AccountNotFoundException e) {
+        ErrorResponse errorResponse = new ErrorResponse(
+                LocalDateTime.now(), e.getMessage()
+        );
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleException(Exception e) {
         ErrorResponse errorResponse = new ErrorResponse(

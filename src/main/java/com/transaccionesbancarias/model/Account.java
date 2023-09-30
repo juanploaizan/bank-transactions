@@ -1,11 +1,13 @@
 package com.transaccionesbancarias.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Cascade;
 
 import java.util.Set;
 
@@ -29,5 +31,6 @@ public class Account {
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
+    @JsonBackReference
     private Set<Pocket> pockets;
 }

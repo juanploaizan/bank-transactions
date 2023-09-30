@@ -2,18 +2,25 @@ package com.transaccionesbancarias.service.impl;
 
 import com.transaccionesbancarias.exception.AccountExistsException;
 import com.transaccionesbancarias.exception.AccountNotFoundException;
+import com.transaccionesbancarias.exception.InsufficientFundsException;
 import com.transaccionesbancarias.model.Account;
+import com.transaccionesbancarias.model.Pocket;
 import com.transaccionesbancarias.repository.AccountRepository;
+import com.transaccionesbancarias.repository.PocketRepository;
 import com.transaccionesbancarias.service.AccountService;
 import org.springframework.stereotype.Service;
+
+import java.util.Set;
 
 @Service
 public class AccountServiceImpl implements AccountService {
 
     private final AccountRepository accountRepository;
+    private final PocketRepository pocketRepository;
 
-    public AccountServiceImpl(AccountRepository accountRepository) {
+    public AccountServiceImpl(AccountRepository accountRepository, PocketRepository pocketRepository) {
         this.accountRepository = accountRepository;
+        this.pocketRepository = pocketRepository;
     }
 
     @Override
@@ -43,12 +50,45 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Boolean transfer(Long originAccountNumber, Long targetAccountNumber, Double amount) {
-        return null;
+    public void transfer(Long originAccountNumber, Long destinationAccountNumber, Double amount) {
+
+        Account originAccount = accountRepository.findByAccountNumber(originAccountNumber);
+        Account targetAccount = accountRepository.findByAccountNumber(destinationAccountNumber);
+
+        if (originAccount == null) {
+            throw new AccountNotFoundException("Account does not exists with account number: " + originAccountNumber);
+        }
+
+        if (targetAccount == null) {
+            throw new AccountNotFoundException("Account does not exists with account number: " + destinationAccountNumber);
+        }
+
+        if (originAccount.getBalance() < amount) {
+            throw new InsufficientFundsException("Insufficient funds");
+        }
+
+        originAccount.setBalance(originAccount.getBalance() - amount);
+        targetAccount.setBalance(targetAccount.getBalance() + amount);
+
+        accountRepository.save(originAccount);
+        accountRepository.save(targetAccount);
     }
 
     @Override
     public Account getAccount(Long accountNumber) {
-        return null;
+        Account account = accountRepository.findByAccountNumber(accountNumber);
+        if (account == null) {
+            throw new AccountNotFoundException("Account does not exists with account number: " + accountNumber);
+        }
+        return account;
+    }
+
+    @Override
+    public Set<Pocket> getAccountPockets(Long accountNumber) {
+        Account account = accountRepository.findByAccountNumber(accountNumber);
+        if (account == null) {
+            throw new AccountNotFoundException("Account does not exists with account number: " + accountNumber);
+        }
+        return pocketRepository.findPocketsByAccount_AccountNumber(accountNumber);
     }
 }
