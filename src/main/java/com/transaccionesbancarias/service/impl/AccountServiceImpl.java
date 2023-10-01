@@ -38,6 +38,10 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Account deposit(Long accountNumber, Double amount) {
 
+        if (amount <= 0) {
+            throw new IllegalArgumentException("Amount must be greater than 0");
+        }
+
         Account account = accountRepository.findByAccountNumber(accountNumber);
 
         if (account == null){
@@ -51,6 +55,10 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void transfer(Long originAccountNumber, Long destinationAccountNumber, Double amount) {
+
+        if (amount <= 0) {
+            throw new IllegalArgumentException("Amount must be greater than 0");
+        }
 
         Account originAccount = accountRepository.findByAccountNumber(originAccountNumber);
         Account targetAccount = accountRepository.findByAccountNumber(destinationAccountNumber);

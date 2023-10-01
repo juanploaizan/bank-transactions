@@ -29,6 +29,10 @@ public class PocketServiceImpl implements PocketService {
     @Override
     public Pocket createPocket(Long accountNumber, String name, Double initialValue) {
 
+        if (initialValue <= 0) {
+            throw new IllegalArgumentException("Initial value must be greater than 0");
+        }
+
         Account account = accountRepository.findByAccountNumber(accountNumber);
 
         if (account == null) {
@@ -60,6 +64,10 @@ public class PocketServiceImpl implements PocketService {
 
     @Override
     public Pocket transferFromAccount(Long accountNumber, String pocketNumber, Double amount) {
+
+        if (amount <= 0) {
+            throw new IllegalArgumentException("Amount must be greater than 0");
+        }
 
         Account account = accountRepository.findByAccountNumber(accountNumber);
 

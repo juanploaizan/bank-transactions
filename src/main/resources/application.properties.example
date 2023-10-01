@@ -1,0 +1,35 @@
+# ------ DATABASE CONFIG --------------
+spring.datasource.url=jdbc:postgresql://${DATASOURCE_HOST}:${DATASOURCE_PORT}/${DATASOURCE_DATABASE}
+spring.datasource.username=${DATASOURCE_USERNAME}
+spring.datasource.password=${DATASOURCE_PASSWORD}
+spring.datasource.driver-class-name=${DATASOURCE_DRIVER_CLASS_NAME}
+# ----------------------------------------------
+
+
+# ------ JPA CONFIG --------------
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+# ----------------------------------------------
+
+
+# ------ JWT CONFIG --------------
+transactions.app.jwtCookieName=${JWT_COOKIE_NAME}
+transactions.app.jwtSecret=${JWT_SECRET}
+# 24 hours
+transactions.app.jwtExpirationTime=${JWT_EXPIRATION_TIME}
+# -------------------------------------
+
+
+# ------ API DOCS - SWAGGER-UI --------
+springdoc.api-docs.enabled=true
+springdoc.swagger-ui.enabled=true
+springdoc.swagger-ui.path=${SWAGGER_UI_PATH}
+# -------------------------------------
+
+
+# ------ PATHS TO MATCH ---------------
+# In case you want to match multiple paths you can use a comma separated list:
+# springdoc.paths-to-match=/api/**,/actuator/***
+springdoc.paths-to-match=/api/auth/**,/api/accounts/**,/api/pockets/**
+# -------------------------------------

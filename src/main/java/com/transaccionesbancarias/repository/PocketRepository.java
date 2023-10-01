@@ -11,7 +11,6 @@ public interface PocketRepository extends JpaRepository<Pocket, String> {
 
     Pocket findByAccount_AccountNumber(Long accountNumber);
     Pocket findByAccount_AccountNumberAndName(Long accountNumber, String name);
-
     Set<Pocket> findPocketsByAccount_AccountNumber(Long accountNumber);
 
 }
